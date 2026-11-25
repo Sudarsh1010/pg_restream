@@ -1,0 +1,15 @@
+BEGIN;
+INSERT INTO restream_streams (stream_id) VALUES ('job-a'), ('job-b')
+    RETURNING stream_id, next_position;
+ stream_id | next_position 
+-----------+---------------
+ job-a     |             1
+ job-b     |             1
+(2 rows)
+
+INSERT INTO restream_chunks (stream_id, position, payload) VALUES
+    ('job-a', 1, 'queued'), ('job-b', 1, 'started');
+INSERT INTO restream_chunks (stream_id, position, payload) VALUES
+    ('job-a', 1, 'duplicate');
+ERROR:  duplicate key value violates unique constraint "restream_chunks_pkey"
+ROLLBACK;

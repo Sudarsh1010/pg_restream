@@ -20,7 +20,12 @@
     {
       devShells.${system}.default = pkgs.mkShell {
         nativeBuildInputs = with pkgs; [
-          rust-bin.stable."1.100.0".default
+          (rust-bin.stable."1.100.0".default.override {
+            extensions = [
+              "rust-src"
+              "rust-analyzer"
+            ];
+          })
           rustPlatform.bindgenHook
           pkg-config
           gnumake

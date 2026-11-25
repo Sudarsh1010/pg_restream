@@ -32,6 +32,12 @@
           libedit
           zlib
         ];
+
+        shellHook = ''
+          # pgrx 0.20.1 rejects Nix's reproducibility seed when generating C macros.
+          # Keep the rest of the bindgen flags, including Clang's include paths.
+          export BINDGEN_EXTRA_CLANG_ARGS="$(printf '%s\n' "$BINDGEN_EXTRA_CLANG_ARGS" | sed -E 's/(^|[[:space:]])-frandom-seed=[^[:space:]]+/\1/g')"
+        '';
       };
     };
 }

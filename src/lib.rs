@@ -7,6 +7,11 @@ fn hello_pg_restream() -> &'static str {
     "Hello, pg_restream"
 }
 
+#[pg_extern]
+fn restream_ping() -> TableIterator<'static, (name!(ok, bool),)> {
+    TableIterator::once((true,))
+}
+
 #[cfg(any(test, feature = "pg_test"))]
 #[pg_schema]
 mod tests {

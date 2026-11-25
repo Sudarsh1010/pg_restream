@@ -2,6 +2,8 @@ use pgrx::prelude::*;
 
 ::pgrx::pg_module_magic!(name, version);
 
+pgrx::extension_sql_file!("../sql/stream_tables.sql");
+
 #[pg_extern]
 fn hello_pg_restream() -> &'static str {
     "Hello, pg_restream"
@@ -21,7 +23,6 @@ mod tests {
     fn test_hello_pg_restream() {
         assert_eq!("Hello, pg_restream", crate::hello_pg_restream());
     }
-
 }
 
 #[cfg(feature = "pg_bench")]
